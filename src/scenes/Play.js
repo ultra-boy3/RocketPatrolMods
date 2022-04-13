@@ -17,12 +17,30 @@ class Play extends Phaser.Scene {
             this.load.spritesheet('explosion', './assets/explosion.png',
              {frameWidth: 64, frameHeight: 32, startFrame: 0, endFrame: 9});
             console.log("Preload finished");
+            
+            //New assets
+            this.load.spritesheet('spaceshipTwo', './assets/spaceshipTwo.png',
+             {frameWidth: 64, frameHeight: 32, startFrame: 0, endFrame: 13});
       }
 
       create() {
             // Place the tile sprite
             this.starfield = this.add.tileSprite(0, 0, 640, 480, 'starfield').setOrigin(0, 0);
             //Seems that by default, origin is in the sprite's center
+
+            // animation config
+            // Animations in Phaser are in a global list, and can be applied
+            // to any game object
+            this.anims.create({
+                  key: 'explode',
+                  frames: this.anims.generateFrameNumbers('explosion', { start: 0, end: 9, first: 0}),
+                  frameRate: 30
+            });
+            this.anims.create({
+                  key: 'spaceshipGlow',
+                  frames: this.anims.generateFrameNumbers('spaceshipTwo', { start: 0, end: 13, first: 0}),
+                  frameRate: 10
+            });
 
             // Green UI background
             this.add.rectangle(0, borderUISize + borderPadding, game.config.width, borderUISize * 2, 0x00FF00).setOrigin(0, 0);
@@ -43,11 +61,13 @@ class Play extends Phaser.Scene {
             // Each ship has diff point value passed into constrcutor's point argument
             // They're also outside the viewport
             this.ship01 = new Spaceship(this, game.config.width + borderUISize*6,
-                  borderUISize*4, 'spaceship', 0, 30).setOrigin(0, 0);
+                  borderUISize*4, 'spaceshipTwo', 0, 30).setOrigin(0, 0);
             this.ship02 = new Spaceship(this, game.config.width + borderUISize*3,
-                  borderUISize*5 + borderPadding*2, 'spaceship', 0, 20).setOrigin(0, 0);
+                  borderUISize*5 + borderPadding*2, 'spaceshipTwo', 0, 20).setOrigin(0, 0);
             this.ship03 = new Spaceship(this, game.config.width,
-                  borderUISize*6 + borderPadding*4, 'spaceship', 0, 10).setOrigin(0, 0);
+                  borderUISize*6 + borderPadding*4, 'spaceshipTwo', 0, 10).setOrigin(0, 0);
+
+            this.ship03.anims.play("spaceshipGlow");
 
             //define keys
             keyFire = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.F);
@@ -55,14 +75,7 @@ class Play extends Phaser.Scene {
             keyLeft = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
             keyRight = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
 
-            // animation config
-            // Animations in Phaser are in a global list, and can be applied
-            // to any game object
-            this.anims.create({
-                  key: 'explode',
-                  frames: this.anims.generateFrameNumbers('explosion', { start: 0, end: 9, first: 0}),
-                  frameRate: 30
-            });
+            
             
             this.p1Score = 0;
             // display score
