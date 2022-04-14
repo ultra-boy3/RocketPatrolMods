@@ -66,11 +66,15 @@ class Play extends Phaser.Scene {
                   borderUISize*5 + borderPadding*2, 'spaceshipTwo', 0, 20).setOrigin(0, 0);
             this.ship03 = new Spaceship(this, game.config.width,
                   borderUISize*6 + borderPadding*4, 'spaceshipTwo', 0, 10).setOrigin(0, 0);
+            
+            let ships = [this.ship01, this.ship02, this.ship03];
 
-            this.ship03.anims.play("spaceshipGlow");
-            this.ship03.on('animationcomplete', () => {      //Signal-like callback + arrow shorthand way to call an anonymous function
-                  this.ship03.anims.play("spaceshipGlow");
-            });
+            for(let i = 0; i < ships.length; i++){
+                  ships[i].anims.play("spaceshipGlow");
+                  ships[i].on('animationcomplete', () => {
+                        ships[i].anims.play("spaceshipGlow");
+                  });
+            }
 
             //define keys
             keyFire = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.F);
