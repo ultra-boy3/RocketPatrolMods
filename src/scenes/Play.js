@@ -20,7 +20,7 @@ class Play extends Phaser.Scene {
             
             //New assets
             this.load.spritesheet('spaceshipTwo', './assets/spaceshipTwo.png',
-             {frameWidth: 64, frameHeight: 32, startFrame: 0, endFrame: 13});
+             {frameWidth: 64, frameHeight: 32, startFrame: 0, endFrame: 11});
       }
 
       create() {
@@ -38,7 +38,7 @@ class Play extends Phaser.Scene {
             });
             this.anims.create({
                   key: 'spaceshipGlow',
-                  frames: this.anims.generateFrameNumbers('spaceshipTwo', { start: 0, end: 13, first: 0}),
+                  frames: this.anims.generateFrameNumbers('spaceshipTwo', { start: 0, end: 11, first: 0}),
                   frameRate: 10
             });
 
@@ -68,6 +68,9 @@ class Play extends Phaser.Scene {
                   borderUISize*6 + borderPadding*4, 'spaceshipTwo', 0, 10).setOrigin(0, 0);
 
             this.ship03.anims.play("spaceshipGlow");
+            this.ship03.on('animationcomplete', () => {      //Signal-like callback + arrow shorthand way to call an anonymous function
+                  this.ship03.anims.play("spaceshipGlow");
+            });
 
             //define keys
             keyFire = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.F);
