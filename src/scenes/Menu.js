@@ -17,7 +17,7 @@ class Menu extends Phaser.Scene {
 
       create() {
             //Add background
-            this.titleImage = this.add.sprite(0, 0, 'title').setOrigin(0, 0);
+            this.titleImage = this.add.sprite(game.config.width/2, game.config.height/2, 'title').setOrigin(0.5, 0.5);
 
             let menuConfig = {
                   fontFamily: 'Courier',
