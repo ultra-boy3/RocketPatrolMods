@@ -45,12 +45,10 @@ class Play extends Phaser.Scene {
             this.anims.create({
                   key: 'spaceshipGlow',
                   frames: this.anims.generateFrameNumbers('spaceshipTwo', { start: 0, end: 11, first: 0}),
-                  frameRate: 10
+                  frameRate: 10,
+                  repeat: -1
             });
-            this.anims.create({
-                  key: 'rocketIdle',
-                  frames: this.anims.generateFrameNumbers('rocketThrust', { start: 0})
-            })
+            // Animations for rocket are created within the class itself
 
             // Green UI background
             this.add.rectangle(0, borderUISize + borderPadding, game.config.width, borderUISize * 2, 0x00FF00).setOrigin(0, 0);
@@ -63,8 +61,8 @@ class Play extends Phaser.Scene {
             //setOrigin adjusts the object's origin/pivot
 
             //add rocket (p1) to horizontal middle of screen
-            this.p1Rocket = new Rocket(this, game.config.width/2, game.config.height - borderUISize - borderPadding,
-            'rocketIdle').setOrigin(0.5, 0);
+            this.p1Rocket = new Rocket(this, game.config.width/2, game.config.height - borderUISize - borderPadding - 20,
+            'rocketIdle').setOrigin(0.5, 0.0);
 
             //add spaceships (x3)
             // Spaces the ships apart on x axis by borderUISize (width of the border)
@@ -78,12 +76,8 @@ class Play extends Phaser.Scene {
                   borderUISize*6 + borderPadding*4, 'spaceshipTwo', 0, 10).setOrigin(0, 0);
             
             let ships = [this.ship01, this.ship02, this.ship03];
-
             for(let i = 0; i < ships.length; i++){
                   ships[i].anims.play("spaceshipGlow");
-                  ships[i].on('animationcomplete', () => {
-                        ships[i].anims.play("spaceshipGlow");
-                  });
             }
 
             //define keys
@@ -92,7 +86,6 @@ class Play extends Phaser.Scene {
             keyLeft = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
             keyRight = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
 
-            
             
             this.p1Score = 0;
             // display score
@@ -137,6 +130,12 @@ class Play extends Phaser.Scene {
             if(this.gameOver && Phaser.Input.Keyboard.JustDown(keyLeft)) {
                   this.scene.start("menuScene");
             }
+
+            // Check key input for launch rocket
+            // if(!this.gameOver && Phaser.Input.Keyboard.JustDown(keyFire)) {
+            //       this.p1Rocket.anims.play("rocketThrust")
+            // }
+            //Seems that checking for keyboard input twice overrides the check in the rocket class
 
             // Game objects are not updated automatically
             if(!this.gameOver){
