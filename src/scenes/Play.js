@@ -134,9 +134,16 @@ class Play extends Phaser.Scene {
             }, null, this);
             
             console.log("Create finished");
+
+            this.checkDelta = true
       }
 
-      update() {
+      update(time, delta) { //Order of these MATTERS. I put delta before time and that ended up swapping the values
+            // Update called once per in-game step/tick
+            // Delta = delta time in ms since the last frame (1 sec = 1000 ms)
+            // Seems like it should be fairly accurate then: Clock is 10000, which can be 10000 ms or 10 seconds
+            // 
+
             // check key input for restart
             if(this.gameOver && Phaser.Input.Keyboard.JustDown(keyRestart)) {
                   this.scene.restart();
@@ -145,8 +152,9 @@ class Play extends Phaser.Scene {
             this.starfield.tilePositionX -= 4;
 
             //Copying the gametimer number isn't the problem. It's that delta is undefined
-            this.clockNum -= this.delta
-            this.clockText.text = this.clockNum;
+            this.clockNum -= delta
+            this.clockText.text = Math.ceil(this.clockNum / 1000);
+
             // Check key input for return to main menu
             if(this.gameOver && Phaser.Input.Keyboard.JustDown(keyLeft)) {
                   this.scene.start("menuScene");
