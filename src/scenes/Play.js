@@ -22,6 +22,9 @@ class Play extends Phaser.Scene {
             {frameWidth: 32, frameHeight: 64, startFrame: 0, endFrame: 3});
             this.load.spritesheet('rocketThrust', "./assets/rocketTwo_thrust.png",
             {frameWidth: 32, frameHeight: 64, startFrame: 0, endFrame: 3});
+
+            //Sounds
+            this.load
       }
 
       create() {
@@ -222,7 +225,12 @@ class Play extends Phaser.Scene {
             // score and repaint
             this.p1Score += ship.points;
             this.scoreLeft.text = this.p1Score + " - Score";
-            this.sound.play('sfx_explosion'); //One of many audio functions
+
+            let explosionString = 'sfx_explosion';
+            let randomInt = Math.floor(Math.random() * 4) + 1 //1 - 5
+            explosionString += randomInt;
+            this.sound.play(explosionString); //One of many audio functions
+            console.log("Played audio " + explosionString);
       }
 }
 
