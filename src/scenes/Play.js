@@ -101,26 +101,27 @@ class Play extends Phaser.Scene {
                         top: 5,
                         bottom: 5,
                   },
-                  fixedWidth: 100
+                  fixedWidth: 125
             }
+            this.scoreLeft = this.add.text(borderUISize + borderPadding,
+                   borderUISize + borderPadding*2, this.p1Score + " - Score", scoreConfig);
+            
+            //Display timer
             let timerConfig = {
                   fontFamily: 'Courier',
                   fonstSize: '28px',
                   backgroundColor: '#F3B141',
                   color: '#843605',
-                  align: 'center',
+                  align: 'left',
                   padding: {
                         top: 5,
                         bottom: 5,
-                  }
+                  },
+                  fixedWidth: 125
             }
-            this.scoreLeft = this.add.text(borderUISize + borderPadding,
-                   borderUISize + borderPadding*2, this.p1Score, scoreConfig);
-            
-            //Display timer
             this.clockNum = game.settings.gameTimer
-            this.clockText = this.add.text(game.config.width/2,
-             borderUISize * 2 + borderPadding, this.clockNum, timerConfig).setOrigin(0.5);
+            this.clockText = this.add.text(game.config.width - borderUISize - borderPadding,
+             borderUISize * 2 + borderPadding, this.clockNum, timerConfig).setOrigin(1.0);
 
             this.gameOver = false;
             // 60-second play clock
@@ -151,9 +152,11 @@ class Play extends Phaser.Scene {
             
             this.starfield.tilePositionX -= 4;
 
-            //Copying the gametimer number isn't the problem. It's that delta is undefined
+            //Display timer
             this.clockNum -= delta
-            this.clockText.text = Math.ceil(this.clockNum / 1000);
+            if(this.clockNum > -1000){
+                  this.clockText.text = "Time - " + Math.ceil(this.clockNum / 1000);
+            }
 
             // Check key input for return to main menu
             if(this.gameOver && Phaser.Input.Keyboard.JustDown(keyLeft)) {
@@ -223,7 +226,7 @@ class Play extends Phaser.Scene {
             });
             // score and repaint
             this.p1Score += ship.points;
-            this.scoreLeft.text = this.p1Score;
+            this.scoreLeft.text = this.p1Score + " - Score";
             this.sound.play('sfx_explosion'); //One of many audio functions
       }
 }
