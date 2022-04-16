@@ -12,7 +12,7 @@ class Rocket extends Phaser.GameObjects.Sprite {
             this.moveSpeed = 2; //Pixels per frame
             this.moveSpeedUp = 4;
             this.rotationDeg = 0;
-            this.rotateSpeed = 0.5; //Degrees per tick
+            this.rotateSpeed = 0.75; //Degrees per tick
             this.sfxRocket = scene.sound.add('sfx_rocket'); //How to add assets loaded in from scene to the object
             this.resetPosition = [x, y];
             
@@ -57,7 +57,9 @@ class Rocket extends Phaser.GameObjects.Sprite {
             // if fired, move up
             if(this.isFiring && this.y >= borderUISize * 3 + borderPadding) {
                   this.setAngle(this.rotationDeg);
-                  this.y -= this.moveSpeedUp;
+
+                  this.y -= this.moveSpeedUp * Math.cos(this.rotationDeg * (Math.PI/180));
+                  this.x += this.moveSpeedUp * Math.sin(this.rotationDeg * (Math.PI/180))
             }
             // reset on miss
             if(this.y <= borderUISize * 3 + borderPadding) {
@@ -68,6 +70,8 @@ class Rocket extends Phaser.GameObjects.Sprite {
       reset(){
             this.isFiring = false;
             this.y = this.resetPosition[1];
+            this.rotationDeg = 0;
+            this.setAngle(0);
             this.anims.play("rocketIdle");
       }
 }
