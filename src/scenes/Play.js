@@ -121,6 +121,9 @@ class Play extends Phaser.Scene {
             this.clockText = this.add.text(game.config.width - borderUISize - borderPadding,
              borderUISize * 2 + borderPadding, this.clockNum, timerConfig).setOrigin(1.0);
 
+             this.highScoreText = this.add.text(game.config.width/2,
+                  borderUISize * 2 + borderPadding, "Best - " + highScore, timerConfig).setOrigin(0.5);
+
             this.gameOver = false;
             // 60-second play clock
             scoreConfig.fixedWidth = 0;
