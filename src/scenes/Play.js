@@ -30,6 +30,15 @@ class Play extends Phaser.Scene {
       }
 
       create() {
+            //define keys
+            keyFire = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.F);
+            keyRestart = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.R);
+            keyLeft = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
+            keyRight = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
+            
+            //FIRST THINGS TO BE CALLED ARE RENDERED ON BOTTOM!
+            //Similar to Godot, top-left is (0, 0), and the "up" direction is negative
+
             // Place the tile sprite
             this.starfield = this.add.tileSprite(0, 0, 640, 480, 'starfield').setOrigin(0, 0);
             //Seems that by default, origin is in the sprite's center
@@ -50,20 +59,6 @@ class Play extends Phaser.Scene {
             });
             // Animations for rocket are created within the class itself
 
-            // Green UI background
-            this.add.rectangle(0, borderUISize + borderPadding, game.config.width, borderUISize * 2, 0x00FF00).setOrigin(0, 0);
-            // White borders
-            this.add.rectangle(0, 0, game.config.width, borderUISize, 0xFFFFFF).setOrigin(0, 0);
-            this.add.rectangle(0, game.config.height - borderUISize, game.config.width, borderUISize, 0xFFFFFF).setOrigin(0, 0);
-            this.add.rectangle(0, 0, borderUISize, game.config.height, 0xFFFFFF).setOrigin(0, 0);
-            this.add.rectangle(game.config.width - borderUISize, 0, borderUISize, game.config.height, 0xFFFFFF).setOrigin(0, 0);
-            // Each has parameters: Position, Size, Color
-            //setOrigin adjusts the object's origin/pivot
-
-            //add rocket (p1) to horizontal middle of screen
-            this.p1Rocket = new Rocket(this, game.config.width/2, game.config.height - borderUISize - borderPadding - 20,
-            'rocketIdle').setOrigin(0.5, 0.0);
-
             //add spaceships (x3)
             // Spaces the ships apart on x axis by borderUISize (width of the border)
             // Each ship has diff point value passed into constrcutor's point argument
@@ -80,12 +75,19 @@ class Play extends Phaser.Scene {
                   ships[i].anims.play("spaceshipGlow");
             }
 
-            //define keys
-            keyFire = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.F);
-            keyRestart = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.R);
-            keyLeft = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
-            keyRight = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
+            //add rocket (p1) to horizontal middle of screen
+            this.p1Rocket = new Rocket(this, game.config.width/2, game.config.height - borderUISize - borderPadding - 20,
+            'rocketIdle').setOrigin(0.5, 0.0);
 
+            // Green UI background
+            this.add.rectangle(0, borderUISize + borderPadding, game.config.width, borderUISize * 2, 0x00FF00).setOrigin(0, 0);
+            // White borders
+            this.add.rectangle(0, 0, game.config.width, borderUISize, 0xFFFFFF).setOrigin(0, 0);
+            this.add.rectangle(0, game.config.height - borderUISize, game.config.width, borderUISize, 0xFFFFFF).setOrigin(0, 0);
+            this.add.rectangle(0, 0, borderUISize, game.config.height, 0xFFFFFF).setOrigin(0, 0);
+            this.add.rectangle(game.config.width - borderUISize, 0, borderUISize, game.config.height, 0xFFFFFF).setOrigin(0, 0);
+            // Each has parameters: Position, Size, Color
+            //setOrigin adjusts the object's origin/pivot
             
             this.p1Score = 0;
             // display score
@@ -101,10 +103,25 @@ class Play extends Phaser.Scene {
                   },
                   fixedWidth: 100
             }
+            let timerConfig = {
+                  fontFamily: 'Courier',
+                  fonstSize: '28px',
+                  backgroundColor: '#F3B141',
+                  color: '#843605',
+                  align: 'center',
+                  padding: {
+                        top: 5,
+                        bottom: 5,
+                  }
+            }
             this.scoreLeft = this.add.text(borderUISize + borderPadding,
-                   borderUISize + borderPadding*2, this.p1Score,
-                    scoreConfig);
+                   borderUISize + borderPadding*2, this.p1Score, scoreConfig);
             
+            //Display timer
+            this.clockNum = game.settings.gameTimer
+            this.clockText = this.add.text(game.config.width/2,
+             borderUISize * 2 + borderPadding, this.clockNum, timerConfig).setOrigin(0.5);
+
             this.gameOver = false;
             // 60-second play clock
             scoreConfig.fixedWidth = 0;
@@ -126,6 +143,10 @@ class Play extends Phaser.Scene {
             }
             
             this.starfield.tilePositionX -= 4;
+
+            //Copying the gametimer number isn't the problem. It's that delta is undefined
+            this.clockNum -= this.delta
+            this.clockText.text = this.clockNum;
             // Check key input for return to main menu
             if(this.gameOver && Phaser.Input.Keyboard.JustDown(keyLeft)) {
                   this.scene.start("menuScene");
