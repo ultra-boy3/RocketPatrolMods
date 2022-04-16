@@ -49,6 +49,11 @@ class Menu extends Phaser.Scene {
             
             this.add.text(game.config.width/2 - 640/2 + 20, game.config.height/2 + 120, "Press <- for Novice", menuConfig);
             this.add.text(game.config.width/2 - 640/2 + 20, game.config.height/2 + 150, "or -> for Expert", menuConfig);
+
+            menuConfig.backgroundColor = '#6EE8FF';
+            menuConfig.align = 'left';
+
+            this.add.text(game.config.width/2 + 640/2 - 20, game.config.height/2 + 150, "High score: " + highScore, menuConfig).setOrigin(1, 0);
       
             // define keys
             keyLeft = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);

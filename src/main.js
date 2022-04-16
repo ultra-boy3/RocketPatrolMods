@@ -13,3 +13,8 @@ let keyFire, keyRestart, keyLeft, keyRight;
 // Set UI sizes
 let borderUISize = game.config.height / 15;
 let borderPadding = borderUISize / 3;
+
+let highScore = 0
+if(localStorage.getItem("highScore") != null){
+      highScore = localStorage.getItem("highScore");
+}
