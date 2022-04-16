@@ -1,5 +1,8 @@
 //Rocket prefab
 class Rocket extends Phaser.GameObjects.Sprite {
+
+      // Can I create a preload method here?
+
       constructor(scene, x, y, texture, frame) {
             super(scene, x, y, texture, frame);
 
@@ -7,7 +10,7 @@ class Rocket extends Phaser.GameObjects.Sprite {
             scene.add.existing(this);
             this.isFiring = false;
             this.moveSpeed = 2; //Pixels per frame
-            this.moveSpeedUp = 2;
+            this.moveSpeedUp = 10;
             this.sfxRocket = scene.sound.add('sfx_rocket');
       }
 

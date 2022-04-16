@@ -21,6 +21,12 @@ class Play extends Phaser.Scene {
             //New assets
             this.load.spritesheet('spaceshipTwo', './assets/spaceshipTwo.png',
              {frameWidth: 64, frameHeight: 32, startFrame: 0, endFrame: 11});
+            this.load.spritesheet('explosionTwo', './assets/explosionTwo.png',
+            {frameWidth: 80, frameHeight: 80, startFrame: 0, endFrame: 6});
+            this.load.spritesheet('rocketIdle', "./assets/rocketTwo_idle.png",
+            {frameWidth: 32, frameHeight: 64, startFrame: 0, endFrame: 3});
+            this.load.spritesheet('rocketThrust', "./assets/rocketTwo_thrust.png",
+            {frameWidth: 32, frameHeight: 64, startFrame: 0, endFrame: 3});
       }
 
       create() {
@@ -33,14 +39,18 @@ class Play extends Phaser.Scene {
             // to any game object
             this.anims.create({
                   key: 'explode',
-                  frames: this.anims.generateFrameNumbers('explosion', { start: 0, end: 9, first: 0}),
-                  frameRate: 30
+                  frames: this.anims.generateFrameNumbers('explosionTwo', { start: 0, end: 6, first: 0}),
+                  frameRate: 12
             });
             this.anims.create({
                   key: 'spaceshipGlow',
                   frames: this.anims.generateFrameNumbers('spaceshipTwo', { start: 0, end: 11, first: 0}),
                   frameRate: 10
             });
+            this.anims.create({
+                  key: 'rocketIdle',
+                  frames: this.anims.generateFrameNumbers('rocketThrust', { start: 0})
+            })
 
             // Green UI background
             this.add.rectangle(0, borderUISize + borderPadding, game.config.width, borderUISize * 2, 0x00FF00).setOrigin(0, 0);
@@ -54,7 +64,7 @@ class Play extends Phaser.Scene {
 
             //add rocket (p1) to horizontal middle of screen
             this.p1Rocket = new Rocket(this, game.config.width/2, game.config.height - borderUISize - borderPadding,
-            'rocket').setOrigin(0.5, 0);
+            'rocketIdle').setOrigin(0.5, 0);
 
             //add spaceships (x3)
             // Spaces the ships apart on x axis by borderUISize (width of the border)
@@ -176,7 +186,7 @@ class Play extends Phaser.Scene {
             // temporarily hide ship
             ship.alpha = 0;
             // create explosion at ship's position (sprite game object)
-            let boom = this.add.sprite(ship.x, ship.y, 'explosion').setOrigin(0, 0);
+            let boom = this.add.sprite(ship.x, ship.y, 'explosionTwo').setDisplayOrigin(8, 24);
             boom.anims.play('explode');               // play explode animation
             boom.on('animationcomplete', () => {      //Signal-like callback + arrow shorthand way to call an anonymous function
                   ship.reset();                       
