@@ -34,6 +34,7 @@ class Play extends Phaser.Scene {
             keyRestart = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.R);
             keyLeft = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
             keyRight = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
+            keyMenu = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.M);
             
             //FIRST THINGS TO BE CALLED ARE RENDERED ON BOTTOM!
             //Similar to Godot, top-left is (0, 0), and the "up" direction is negative
@@ -134,7 +135,7 @@ class Play extends Phaser.Scene {
                   this.add.text(game.config.width/2, game.config.height/2,
                    'GAME OVER', scoreConfig).setOrigin(0.5);
                   this.add.text(game.config.width/2, game.config.height/2 + 64,
-                  'Press (R) to Restart or <- for Menu', scoreConfig).setOrigin(0.5);
+                  'Press (R) to Restart or (M) for Menu', scoreConfig).setOrigin(0.5);
                   this.gameOver = true;
 
                   //Update high score
@@ -172,7 +173,7 @@ class Play extends Phaser.Scene {
             }
 
             // Check key input for return to main menu
-            if(this.gameOver && Phaser.Input.Keyboard.JustDown(keyLeft)) {
+            if(this.gameOver && Phaser.Input.Keyboard.JustDown(keyMenu)) {
                   this.scene.start("menuScene");
             }
 

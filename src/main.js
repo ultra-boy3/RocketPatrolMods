@@ -8,7 +8,7 @@ let config = { //This is a JS object - similar to a dictionary
 let game = new Phaser.Game(config);
 
 //reserve keyboard vars
-let keyFire, keyRestart, keyLeft, keyRight;
+let keyFire, keyRestart, keyLeft, keyRight, keyMenu;
 
 // Set UI sizes
 let borderUISize = game.config.height / 15;
