@@ -22,6 +22,7 @@ class Play extends Phaser.Scene {
             {frameWidth: 32, frameHeight: 64, startFrame: 0, endFrame: 3});
             this.load.spritesheet('rocketThrust', "./assets/rocketTwo_thrust.png",
             {frameWidth: 32, frameHeight: 64, startFrame: 0, endFrame: 3});
+            this.load.image('uiBorder', './assets/ui_border.png');
 
             //Sounds
             this.load
@@ -79,11 +80,13 @@ class Play extends Phaser.Scene {
 
             // Green UI background
             this.add.rectangle(0, borderUISize + borderPadding, game.config.width, borderUISize * 2, 0x00FF00).setOrigin(0, 0);
-            // White borders
-            this.add.rectangle(0, 0, game.config.width, borderUISize, 0xFFFFFF).setOrigin(0, 0);
-            this.add.rectangle(0, game.config.height - borderUISize, game.config.width, borderUISize, 0xFFFFFF).setOrigin(0, 0);
-            this.add.rectangle(0, 0, borderUISize, game.config.height, 0xFFFFFF).setOrigin(0, 0);
-            this.add.rectangle(game.config.width - borderUISize, 0, borderUISize, game.config.height, 0xFFFFFF).setOrigin(0, 0);
+            // UI borders
+
+            this.add.sprite(0, game.config.height, 'uiBorder').setOrigin(0, 0).setAngle(270)
+            this.add.sprite(game.config.width, 0, 'uiBorder').setOrigin(0, 0).setAngle(90)
+            this.add.sprite(game.config.width, game.config.height, 'uiBorder').setOrigin(0, 0).setAngle(180);
+            this.add.sprite(0, 0, 'uiBorder').setOrigin(0, 0);
+
             // Each has parameters: Position, Size, Color
             //setOrigin adjusts the object's origin/pivot
             
