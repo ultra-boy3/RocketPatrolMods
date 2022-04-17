@@ -23,9 +23,6 @@ class Play extends Phaser.Scene {
             this.load.spritesheet('rocketThrust', "./assets/rocketTwo_thrust.png",
             {frameWidth: 32, frameHeight: 64, startFrame: 0, endFrame: 3});
             this.load.image('uiBorder', './assets/ui_border.png');
-
-            //Sounds
-            this.load
       }
 
       create() {
