@@ -18,3 +18,20 @@ let highScore = 0
 if(localStorage.getItem("highScore") != null){
       highScore = localStorage.getItem("highScore");
 }
+
+/*
+Santiago Ponce - 4/18/22
+"Rocket Patrol HD"
+Completion time: Around 8-9 hours
+
+Changes:
+Created new artwork for assets (rocket, spaceships, explosion)
+Created 5 explosion sounds that play randomly
+Added new weapon behavior and animated the sprite (Rocket can be
+      rotated left and right during flight)
+New title screen artwork + layout
+Visible timer
+High-score that appears in UI and persists even after closing
+      the window (Saves a small file to local machine)
+New artwork for UI borders
+*/
